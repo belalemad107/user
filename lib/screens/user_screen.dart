@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:user/models/user_model.dart';
+import 'package:user/screens/Widgets/my_card.dart';
+import 'package:user/screens/uesr_destails.dart';
 import 'package:user/services/user_service.dart';
 
 class UserScreen extends StatefulWidget {
@@ -19,7 +21,6 @@ class _UserScreenState extends State<UserScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getUserList();
   }
@@ -33,8 +34,18 @@ class _UserScreenState extends State<UserScreen> {
       body: isloading
           ? Center(child: CircularProgressIndicator())
           : ListView.builder(
-              itemBuilder: (BuildContext context, int index) => Container(
-                child: Text("${users[index].name}"),
+              itemBuilder: (BuildContext context, int index) => Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => UserDetails(users[index])));
+                    },
+                    child: MyCard(
+                      content: "${users[index].name}",
+                    )),
               ),
               itemCount: users.length,
             ),
